@@ -14,12 +14,12 @@ class Analise:
         media2 = Analise.__analise__(tabela2.media)
         
         medias = [media1.media,media2.media]
-        Analise.gerarGraficoBloxPLot(tabela2.media, anoSemestre)
-        Analise.gerarGraficosBarra(medias, anoSemestre)
 
-        Analise.gerarDocumento(media1.printAnalise("media"),anoSemestre,anoSemestre)
-        print(media1.printAnalise("Media"))
-        print(tabela2.media)
+        listaPathGrafico = []
+        listaPathGrafico.append(Analise.gerarGraficoBloxPLot(tabela2.media, anoSemestre[0], "media", nomeProcura))
+        listaPathGrafico.append(Analise.gerarGraficosBarra(medias, anoSemestre, "media", nomeProcura))
+
+        Analise.gerarDocumento(media1.printAnalise("media"), anoSemestre, nomeProcura, listaPathGrafico)
 
     @staticmethod
     def __analise__(lista):
@@ -52,15 +52,32 @@ class Analise:
     
     @staticmethod
     def calcularQuadrantes(lista):
-
+        # Filtrar None e ordenar a lista
         listaEmRol = sorted(filter(None, lista))
         
-        n = len(listaEmRol)
-        q1 = listaEmRol[n // 4]
-        q2 = listaEmRol[n // 2]
-        q3 = listaEmRol[3 * n // 4]
-        
-        return q1, q2, q3
+        def calcularQ1(lista):
+            n = len(lista)
+            if n % 2 == 0:
+                return (lista[n//4 - 1] + lista[n//4]) / 2
+            else:
+                return lista[n//4]
+
+        def calcularQ2(lista):
+            n = len(lista)
+            if n % 2 == 0:
+                return (lista[n//2 - 1] + lista[n//2]) / 2
+            else:
+                return lista[n//2]
+
+        def calcularQ3(lista):
+            n = len(lista)
+            if n % 2 == 0:
+                return (lista[(3*n)//4 - 1] + lista[(3*n)//4]) / 2
+            else:
+                return lista[(3*n)//4]
+            
+        return calcularQ1(lista), calcularQ2(lista), calcularQ3(lista)
+
     
     @staticmethod
     def calcularMediana(lista):
@@ -71,6 +88,14 @@ class Analise:
             return listaEmRol[(n // 2)]
         else:
             return (listaEmRol[(n // 2) - 1] + listaEmRol[(n // 2)])/2
+    
+    @staticmethod
+    def calcularVariancia(lista):
+        listaFiltrada = Analise.filtrarNulos(lista)
+        media = Analise.calculaMedia(lista)
+
+        for item in listaFiltrada:
+            total += 
     
     @staticmethod
     def filtrarNulos(lista):
@@ -92,7 +117,7 @@ class Analise:
 
         return total
     
-    def gerarGraficoBloxPLot(lista,anoSemestre):#, nome#):
+    def gerarGraficoBloxPLot(lista,anoSemestre, dadoanalisado, listaAnalisada):#, nome#):
 
         plt.figure(figsize=(8,6))
         plt.boxplot(Analise.filtrarNulos(lista), patch_artist=True, showmeans=True, showfliers=True)
@@ -101,11 +126,13 @@ class Analise:
         plt.grid(True)
         plt.yticks(range(11))
 
-        plot_path = "plot.png"
+        plot_path = f"{listaAnalisada + dadoanalisado + anoSemestre}.png"
         plt.savefig(plot_path)
-        plt.close() 
+        plt.close()
 
-    def gerarGraficosBarra(valores, anoSemestre):
+        return plot_path
+
+    def gerarGraficosBarra(valores, anoSemestre, dadoanalisado, listaAnalisada):
         plt.bar(anoSemestre, valores)
 
         plt.xlabel('Ano/Semestre')
@@ -114,7 +141,12 @@ class Analise:
 
         plt.grid(True)
         plt.yticks(range(11))
-        plt.show()
+
+        plot_path = f"{listaAnalisada + dadoanalisado + anoSemestre[0] + anoSemestre[1] }.png"
+        plt.savefig(plot_path)
+        plt.close()
+
+        return plot_path
     
     def gerarDocumento(texto, anos, nomeProcura,pathsGraficos):
         doc = Document()
@@ -124,7 +156,9 @@ class Analise:
         doc.add_paragraph(texto)
 
         for path in pathsGraficos:
-            doc.add_heading("Plot Example", level=1)
-            doc.add_paragraph("Below is an example of a plot generated using matplotlib:")
+            doc.add_heading(path, level=1)
             doc.add_picture(path, width=Inches(6))
+        
+        doc.save(f"{nomeProcura + anos[0] + anos[1]}.docx")
+
 

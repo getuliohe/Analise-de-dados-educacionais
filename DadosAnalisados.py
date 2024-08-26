@@ -1,15 +1,20 @@
 class DadosAnalisados:
-    def __init__(self, tamanhoDaLista, media, mediana, min, max, qd1, qd2, qd3, soma):
+    def __init__(self, tamanhoDaLista, media, mediana,variancia,desvioPadrao,desvioMedioAbsoluto,amplitude,coeficienteDeVariacao, min, max, qd1, qd2, qd3, soma):
         self.tamanhoDaLista = tamanhoDaLista
         self. media = media
         self.mediana = mediana
-        self.min = min
-        self.max = max
-        self.qd1 = qd1
-        self.qd2 = qd2
-        self.qd3 = qd3
-        self.soma = soma
+        self.variancia =variancia
+        self.desvioPadrao = desvioPadrao
+        self.desvioMedioAbsoluto = desvioMedioAbsoluto
+        self.amplitude = amplitude
+        self.coeficienteDeVariacao = coeficienteDeVariacao
+        self.minimo = min
+        self.maximo = max
+        self.quartil1 = qd1
+        self.quartil2 = qd2
+        self.quartil3 = qd3
+        self.total = soma
 #+=
     def printAnalise(self, nomeDado):
-                        return f"{nomeDado}\n\n" + f"n = {self.tamanhoDaLista}\n" + f"media = {self.media}\n" + f"mediana = {self.mediana}\n\n" + f"min = {self.min}\n" + f"qd1 = {self.qd1}\n" + f"qd2 = {self.qd2}\n" + f"qd3 = {self.qd3}\n" + f"max = {self.max}\n" +f"soma = {self.soma}\n"
+                        return f"\tDado analisado:{nomeDado}\n\nn = {self.tamanhoDaLista}\nmédia = {self.media}\nmediana = {self.mediana}\nmínimo = {self.minimo}\nquartil 1 = {self.quartil1}\nquartil 2 = {self.quartil2}\nquartil 3 = {self.quartil3}\nmáximo = {self.maximo}\nvariancia = {self.variancia}\ndesvio padrão = {self.desvioPadrao}\n desvio médio absoluto = {self.desvioMedioAbsoluto}\namplitude = {self.amplitude}\ntotal = {self.total}"
               

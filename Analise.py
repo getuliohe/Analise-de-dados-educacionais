@@ -3,6 +3,7 @@ import numpy as np
 from DadosAnalisados import DadosAnalisados
 from docx import Document
 from docx.shared import Inches
+import math
 
 
 class Analise:
@@ -16,7 +17,7 @@ class Analise:
         medias = [media1.media,media2.media]
 
         listaPathGrafico = []
-        listaPathGrafico.append(Analise.gerarGraficoBloxPLot(tabela2.media, anoSemestre[0], "media", nomeProcura))
+        listaPathGrafico.append(Analise.gerarGraficoBoxPLot(tabela2.media, anoSemestre[0], "media", nomeProcura))
         listaPathGrafico.append(Analise.gerarGraficosBarra(medias, anoSemestre, "media", nomeProcura))
 
         Analise.gerarDocumento(media1.printAnalise("media"), anoSemestre, nomeProcura, listaPathGrafico)
@@ -27,6 +28,11 @@ class Analise:
                                     len(lista),
                                     Analise.calculaMedia(lista),
                                     Analise.calcularMediana(lista),
+                                    Analise.calcularVariancia(lista),
+                                    Analise.calcularDesvioPadrao(lista),
+                                    Analise.calcularDesvioMedioAbsoluto(lista),
+                                    Analise.calcularAmplitude(lista),
+                                    Analise.calcularCoeficienteDeVaricao(lista),
                                     min(Analise.filtrarNulos(lista)),
                                     max(Analise.filtrarNulos(lista)),
                                     Analise.calcularQuadrantes(lista)[0],
@@ -93,9 +99,34 @@ class Analise:
     def calcularVariancia(lista):
         listaFiltrada = Analise.filtrarNulos(lista)
         media = Analise.calculaMedia(lista)
+        total = 0
 
         for item in listaFiltrada:
-            total += 
+            total += (item - media)**2
+        
+        return total/(len(listaFiltrada)- 1)
+    
+    @staticmethod
+    def calcularDesvioPadrao(lista):
+        return math.sqrt(Analise.calcularVariancia(lista))
+    
+    @staticmethod
+    def calcularDesvioMedioAbsoluto(lista):
+        listaFiltrada = Analise.filtrarNulos(lista)
+        media = Analise.calculaMedia(lista)
+        total = [abs(x - media) for x in listaFiltrada]
+        
+        return sum(total)/len(listaFiltrada)
+    
+    @staticmethod
+    def calcularAmplitude(lista):
+        return (max(Analise.filtrarNulos(lista)) - min(Analise.filtrarNulos(lista)))
+    
+    @staticmethod
+    def calcularCoeficienteDeVaricao(lista):
+        media = Analise.calculaMedia(lista)
+
+        return (Analise.calcularDesvioPadrao(lista)/ media) * 100
     
     @staticmethod
     def filtrarNulos(lista):
@@ -117,7 +148,7 @@ class Analise:
 
         return total
     
-    def gerarGraficoBloxPLot(lista,anoSemestre, dadoanalisado, listaAnalisada):#, nome#):
+    def gerarGraficoBoxPLot(lista,anoSemestre, dadoanalisado, listaAnalisada):#, nome#):
 
         plt.figure(figsize=(8,6))
         plt.boxplot(Analise.filtrarNulos(lista), patch_artist=True, showmeans=True, showfliers=True)

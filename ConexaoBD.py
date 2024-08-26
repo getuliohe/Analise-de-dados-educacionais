@@ -9,8 +9,8 @@ class ConexaoBD:
         conn = mysql.connector.connect(
             host="localhost",
             user="root",
-            password="ADttgh2017$",
-            database="ifsp jcr"
+            password="123456",
+            database="bussola"
         )
 
         nomeTabela = []
@@ -75,8 +75,8 @@ class ConexaoBD:
         conn = mysql.connector.connect(
             host="localhost",
             user="root",
-            password="ADttgh2017$",
-            database="ifsp jcr"
+            password="123456",
+            database="bussola"
         )
 
         cursor = conn.cursor()
@@ -141,8 +141,8 @@ class ConexaoBD:
         conn = mysql.connector.connect(
             host="localhost",
             user="root",
-            password="ADttgh2017$",
-            database="ifsp jcr"
+            password="123456",
+            database="bussola"
         )
 
         cursor = conn.cursor()

@@ -3,15 +3,20 @@ from LinhaSelecaoBD import LinhaSelecaoBD
 import mysql.connector
 
 class ConexaoBD:
-    
+
     @staticmethod
-    def procuraBDdisciplina(procura):
-        conn = mysql.connector.connect(
+    def retorna_conexao():
+        return mysql.connector.connect(
             host="localhost",
             user="root",
             password="123456",
             database="bussola"
         )
+    
+    
+    @staticmethod
+    def procuraBDdisciplina(procura):
+        conn = ConexaoBD.retorna_conexao()
 
         nomeTabela = []
 
@@ -72,12 +77,7 @@ class ConexaoBD:
         tabela1 = LinhaSelecaoBD()
         tabela2 = LinhaSelecaoBD()
         
-        conn = mysql.connector.connect(
-            host="localhost",
-            user="root",
-            password="123456",
-            database="bussola"
-        )
+        conn = ConexaoBD.retorna_conexao()
 
         cursor = conn.cursor()
         
@@ -138,12 +138,7 @@ class ConexaoBD:
         tabela1 = LinhaSelecaoBD()
         tabela2 = LinhaSelecaoBD()
         
-        conn = mysql.connector.connect(
-            host="localhost",
-            user="root",
-            password="123456",
-            database="bussola"
-        )
+        conn = ConexaoBD.retorna_conexao()
 
         cursor = conn.cursor()
         

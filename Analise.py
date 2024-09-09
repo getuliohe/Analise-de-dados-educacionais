@@ -20,7 +20,7 @@ class Analise:
         listaPathGrafico.append(Analise.gerarGraficoBoxPLot(tabela2.media, anoSemestre[0], "media", nomeProcura))
         listaPathGrafico.append(Analise.gerarGraficosBarra(medias, anoSemestre, "media", nomeProcura))
 
-        Analise.gerarDocumento(media1.printAnalise("media"), anoSemestre, nomeProcura, listaPathGrafico)
+        #Analise.gerarDocumento(media1.printAnalise("media"), anoSemestre, nomeProcura, listaPathGrafico)
 
     @staticmethod
     def __analise__(lista):
@@ -152,8 +152,8 @@ class Analise:
 
         plt.figure(figsize=(8,6))
         plt.boxplot(Analise.filtrarNulos(lista), patch_artist=True, showmeans=True, showfliers=True)
-        plt.title("Bloxplox da media")
-        plt.ylabel('Valores')
+        plt.title("Boxplox da \"nota final\" 2022")
+        plt.ylabel('notas')
         plt.grid(True)
         plt.yticks(range(11))
 

@@ -1,14 +1,6 @@
 class LinhaSelecaoBD:
 
     def __init__(self, totalFaltas = None, porcentagemFrequencia = None , situacao = None, nota1 = None, falta1 = None, media = None, notaFinal = None, mediaFinal = None):
-        #     self.totalFaltas = totalFaltas
-        #     self.porcentagemFrequencia = porcentagemFrequencia
-        #     self.situacao = situacao
-        #     self.nota1 = nota1
-        #     self.falta1 = falta1
-        #     self.media = media
-        #     self.notaFinal = notaFinal
-        #     self.mediaFinal = mediaFinal
         self.totalFaltas = [] if totalFaltas is None else [totalFaltas]
         self.porcentagemFrequencia = [] if porcentagemFrequencia is None else [porcentagemFrequencia]
         self.situacao = [] if situacao is None else [situacao]

@@ -17,8 +17,8 @@ class Analise:
         medias = [media1.media,media2.media]
 
         listaPathGrafico = []
-        listaPathGrafico.append(Analise.gerarGraficoBoxPLot(tabela2.media, anoSemestre[0], "media", nomeProcura))
-        listaPathGrafico.append(Analise.gerarGraficosBarra(medias, anoSemestre, "media", nomeProcura))
+        listaPathGrafico.append(Analise.gerarGraficoBoxPLot(tabela1.media, tabela2.media, anoSemestre, "media", nomeProcura))
+        #listaPathGrafico.append(Analise.gerarGraficosBarra(medias, anoSemestre, "media", nomeProcura))
 
         #Analise.gerarDocumento(media1.printAnalise("media"), anoSemestre, nomeProcura, listaPathGrafico)
 
@@ -148,16 +148,17 @@ class Analise:
 
         return total
     
-    def gerarGraficoBoxPLot(lista,anoSemestre, dadoanalisado, listaAnalisada):#, nome#):
+    def gerarGraficoBoxPLot(lista1, lista2, anoSemestre, dadoAnalisado, listaAnalisada):#, nome#):
 
         plt.figure(figsize=(8,6))
-        plt.boxplot(Analise.filtrarNulos(lista), patch_artist=True, showmeans=True, showfliers=True)
-        plt.title("Boxplox da \"nota final\" 2022")
+        plt.boxplot([Analise.filtrarNulos(lista1), Analise.filtrarNulos(lista2)], patch_artist=True, showmeans=True, showfliers=True)
+        plt.title(f"Boxplox da {dadoAnalisado} {anoSemestre[0]}X{anoSemestre[1]}")
         plt.ylabel('notas')
+        plt.xticks([1, 2], [f"{anoSemestre[0]}", f"{anoSemestre[1]}"])
         plt.grid(True)
         plt.yticks(range(11))
 
-        plot_path = f"{listaAnalisada + dadoanalisado + anoSemestre}.png"
+        plot_path = f"{listaAnalisada + dadoAnalisado + anoSemestre[0] + anoSemestre[1] }.png"
         plt.savefig(plot_path)
         plt.close()
 

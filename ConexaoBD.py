@@ -21,7 +21,7 @@ class ConexaoBD:
         nomeTabela = []
 
         cursor = conn.cursor()
-        queryNomeTabela = [f"select nomeTabela from (SELECT nomeCampus, nomeTabela, idCurso, nomeDisciplina, anoSemestre FROM (SELECT nomeCampus,idDisciplina,nomeTabela, anoSemestre FROM `lista de tabelas` as y INNER JOIN campus on y.idCampus = campus.idCampus) as a inner join `disciplinas` on  a.idDisciplina = `disciplinas`.idDisciplina) as b inner join `cursos` on b.idCurso = `cursos`.idCurso WHERE curso = \"{procura.curso}\" and nomeCampus = \"{procura.campus}\" and nomeDisciplina = \"{procura.disciplina}\" and anoSemestre = {procura.anoSemestre[0]};", f"select nomeTabela from (SELECT nomeCampus, nomeTabela, idCurso, nomeDisciplina, anoSemestre FROM (SELECT nomeCampus ,idDisciplina,nomeTabela, anoSemestre FROM `lista de tabelas` as y INNER JOIN campus on y.idCampus = campus.idCampus) as a inner join `disciplinas` on  a.idDisciplina = `disciplinas`.idDisciplina) as b inner join `cursos` on b.idCurso = `cursos`.idCurso WHERE curso = \"{procura.curso}\" and nomeCampus = \"{procura.campus}\" and nomeDisciplina = \"{procura.disciplina}\" and anoSemestre = {procura.anoSemestre[1]};"]
+        queryNomeTabela = [f"select nomeTabela from (SELECT nomeCampus, nomeTabela, idCurso, nomeDisciplina, anoSemestre FROM (SELECT nomeCampus,idDisciplina,nomeTabela, anoSemestre FROM `lista de tabelas` as y INNER JOIN campus on y.idCampus = campus.idCampus) as a inner join `disciplinas` on  a.idDisciplina = `disciplinas`.idDisciplina) as b inner join `cursos` on b.idCurso = `cursos`.idCurso WHERE nomeCurso = \"{procura.curso}\" and nomeCampus = \"{procura.campus}\" and nomeDisciplina = \"{procura.disciplina}\" and anoSemestre = {procura.anoSemestre[0]};", f"select nomeTabela from (SELECT nomeCampus, nomeTabela, idCurso, nomeDisciplina, anoSemestre FROM (SELECT nomeCampus ,idDisciplina,nomeTabela, anoSemestre FROM `lista de tabelas` as y INNER JOIN campus on y.idCampus = campus.idCampus) as a inner join `disciplinas` on  a.idDisciplina = `disciplinas`.idDisciplina) as b inner join `cursos` on b.idCurso = `cursos`.idCurso WHERE curso = \"{procura.curso}\" and nomeCampus = \"{procura.campus}\" and nomeDisciplina = \"{procura.disciplina}\" and anoSemestre = {procura.anoSemestre[1]};"]
         
         cursor.execute(queryNomeTabela[0])
         nomeTabela.append( cursor.fetchall()[0][0])
@@ -81,8 +81,8 @@ class ConexaoBD:
 
         cursor = conn.cursor()
         
-        query = [f"SELECT nomeTabela FROM (SELECT curso, y.idCampus ,nomeTabela, anoSemestre FROM `cursos` INNER JOIN `lista de tabelas`as y on `cursos`.idCurso = y.idCurso) AS A INNER JOIN campus ON A.idCampus = campus.idCampus WHERE A.curso = \"{procura.curso}\" AND A.anoSemestre = \"{procura.anoSemestre[0]}\" and nomeCampus = \"{procura.campus}\";", 
-                 f"SELECT nomeTabela FROM (SELECT curso, y.idCampus ,nomeTabela, anoSemestre FROM `cursos` INNER JOIN `lista de tabelas`as y on `cursos`.idCurso = y.idCurso) AS A INNER JOIN campus ON A.idCampus = campus.idCampus WHERE A.curso = \"{procura.curso}\" AND A.anoSemestre = \"{procura.anoSemestre[1]}\" and nomeCampus = \"{procura.campus}\";"]
+        query = [f"SELECT nomeTabela FROM (SELECT nomeCurso, y.idCampus ,nomeTabela, anoSemestre FROM `cursos` INNER JOIN `lista de tabelas`as y on `cursos`.idCurso = y.idCurso) AS A INNER JOIN campus ON A.idCampus = campus.idCampus WHERE A.nomeCurso = \"{procura.curso}\" AND A.anoSemestre = \"{procura.anoSemestre[0]}\" and nomeCampus = \"{procura.campus}\";", 
+                 f"SELECT nomeTabela FROM (SELECT nomeCurso, y.idCampus ,nomeTabela, anoSemestre FROM `cursos` INNER JOIN `lista de tabelas`as y on `cursos`.idCurso = y.idCurso) AS A INNER JOIN campus ON A.idCampus = campus.idCampus WHERE A.nomeCurso = \"{procura.curso}\" AND A.anoSemestre = \"{procura.anoSemestre[1]}\" and nomeCampus = \"{procura.campus}\";"]
 
         cursor.execute(query[0])
 

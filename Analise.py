@@ -12,12 +12,15 @@ class Analise:
     def analise(tabela1, tabela2, anoSemestre, nomeProcura):
         doc = Document()
         
-        Analise.realizarAnaliseDeUmDado(doc, tabela1.media, tabela2.media, anoSemestre, nomeProcura, "media")
-        Analise.realizarAnaliseDeUmDado(doc, tabela1.totalFaltas, tabela2.totalFaltas, anoSemestre, nomeProcura, "Total de faltas")
+        Analise.adicionar_titulo_documento(doc, nomeProcura, anoSemestre)
+        
+        Analise.realizarAnaliseDeUmDado(doc, tabela1.media, tabela2.media, anoSemestre, "media")
+        Analise.realizarAnaliseDeUmDado(doc, tabela1.totalFaltas, tabela2.totalFaltas, anoSemestre, "Total de faltas")
+        
         Analise.gerar_documento(doc, nomeProcura, anoSemestre)
     
     @staticmethod
-    def realizarAnaliseDeUmDado(doc, dado1, dado2, anoSemestre, nomeProcura, nomeDado):
+    def realizarAnaliseDeUmDado(doc, dado1, dado2, anoSemestre, nomeDado):
         dado1Analisado = Analise.retornaListaAnalisada(dado1)
 
         dado2Analisado = Analise.retornaListaAnalisada(dado2)
@@ -26,9 +29,9 @@ class Analise:
 
         listaPathGrafico = []
         listaPathGrafico.append(Analise.gerarGraficoBoxPLot(dado1, dado2, anoSemestre, nomeDado,))
-        listaPathGrafico.append(Analise.gerarGraficosBarra(medias, anoSemestre, nomeDado, nomeProcura))
+        listaPathGrafico.append(Analise.gerarGraficosBarra(medias, anoSemestre, nomeDado))
 
-        Analise.adicionar_paragrafo_documento(doc, dado1Analisado, dado2Analisado, anoSemestre, nomeProcura, listaPathGrafico)
+        Analise.adicionar_paragrafo_documento(doc, dado1Analisado, dado2Analisado, anoSemestre, listaPathGrafico, nomeDado)
 
     @staticmethod
     def retornaListaAnalisada(lista):
@@ -158,13 +161,16 @@ class Analise:
     
     def gerarGraficoBoxPLot(lista1, lista2, anoSemestre, dadoAnalisado):
 
-        plt.figure(figsize=(8,6))
-        plt.boxplot([Analise.filtrarNulos(lista1), Analise.filtrarNulos(lista2)], patch_artist=True, showmeans=True, showfliers=True)
+        plt.figure(figsize=(6, 4))
+        plt.boxplot([Analise.filtrarNulos(lista1), Analise.filtrarNulos(lista2)], patch_artist=True, showmeans=True, showfliers=True, )
+        
         plt.title(f"Boxplox da {dadoAnalisado} {anoSemestre[0]}X{anoSemestre[1]}")
-        plt.ylabel('notas')
+        plt.ylabel(f'{dadoAnalisado}')
+        plt.xlabel('Ano/Semestre')
+        
         plt.xticks([1, 2], [f"{anoSemestre[0]}", f"{anoSemestre[1]}"])
+        plt.yticks(range(int((max(Analise.filtrarNulos(lista1))) + max(Analise.filtrarNulos(lista2)) / 2) + 1))
         plt.grid(True)
-        plt.yticks(range(11))
 
         img_stream = BytesIO()
         plt.savefig(img_stream, format='png')
@@ -174,15 +180,17 @@ class Analise:
 
         return img_stream
 
-    def gerarGraficosBarra(valores, anoSemestre, dadoanalisado, listaAnalisada):
+    def gerarGraficosBarra(valores, anoSemestre, dadoanalisado):
+        plt.figure(figsize=(6, 4))
+        
         plt.bar(anoSemestre, valores)
 
+        plt.title(f'Gráfico de Barras da média do dado: "{dadoanalisado}"')
         plt.xlabel('Ano/Semestre')
-        plt.ylabel('Média')
-        plt.title('Gráfico de Barras')
+        plt.ylabel(f'{dadoanalisado}')
 
         plt.grid(True)
-        plt.yticks(range(11))
+        plt.yticks(range(int(max(Analise.filtrarNulos(valores))+ 1)))
 
         img_stream = BytesIO()
         plt.savefig(img_stream, format='png')
@@ -191,10 +199,12 @@ class Analise:
 
         return img_stream
     
-    def adicionar_paragrafo_documento(doc, lista1, lista2, anos, nomeProcura, streamsGraficos):
+    def adicionar_titulo_documento(doc, nomeProcura, anoSemestre):
+        t = doc.add_heading(f"Analise de {nomeProcura} {anoSemestre[0]} X {nomeProcura} {anoSemestre[1]}")
+    
+    def adicionar_paragrafo_documento(doc, lista1, lista2, anos, streamsGraficos, nomeDado):
         
-        doc.add_heading(f"Analise de {nomeProcura} {anos[0]} X {nomeProcura} {anos[1]}")
-        doc.add_paragraph(f"\tDado analisado:{nomeProcura}\n\n" +
+        doc.add_paragraph(f"\n\n\tDado analisado:{nomeDado}\n\n" +
                             f"Calculo: resultado {anos[0]} X resultado {anos[1]}" +
                             f"n = {lista1.tamanhoDaLista} X {lista2.tamanhoDaLista}\n" +
                             f"média = {lista1.media} X {lista2.media}\n" +

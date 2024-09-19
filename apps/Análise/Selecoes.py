@@ -1,4 +1,4 @@
-from ConexaoBD import ConexaoBD
+from apps.conexaoBD.ConexaoBD import ConexaoBD
 
 class Selecoes:
     def __init__(self, anoSemestre, campus , curso = None, disciplina = None):

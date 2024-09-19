@@ -1,2 +1,5 @@
 *.docx
 *.png
+*.pyc
+
+venv/

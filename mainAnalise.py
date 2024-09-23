@@ -1,6 +1,4 @@
-from Selecoes import Selecoes
-from DadosAnalisados import DadosAnalisados
-from Analise import Analise
+from apps.Analise.Selecoes import Selecoes
 
 listaDeanos = ["2022","2021"]
 listaDeanos.sort()

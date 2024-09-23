@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from DadosAnalisados import DadosAnalisados
+from .DadosAnalisados import DadosAnalisados
 from docx import Document
 from docx.shared import Inches
 import math
@@ -169,6 +169,7 @@ class Analise:
         plt.xlabel('Ano/Semestre')
         
         plt.xticks([1, 2], [f"{anoSemestre[0]}", f"{anoSemestre[1]}"])
+        # TODO fix the yticks
         plt.yticks(range(int((max(Analise.filtrarNulos(lista1))) + max(Analise.filtrarNulos(lista2)) / 2) + 1))
         plt.grid(True)
 
@@ -190,6 +191,7 @@ class Analise:
         plt.ylabel(f'{dadoanalisado}')
 
         plt.grid(True)
+        # TODO fix the yticks
         plt.yticks(range(int(max(Analise.filtrarNulos(valores))+ 1)))
 
         img_stream = BytesIO()

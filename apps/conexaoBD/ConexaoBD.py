@@ -1,5 +1,5 @@
-from Analise import Analise
-from LinhaSelecaoBD import LinhaSelecaoBD
+from ..Analise.Analise import Analise
+from ..Analise.LinhaSelecaoBD import LinhaSelecaoBD
 import mysql.connector
 
 class ConexaoBD:
